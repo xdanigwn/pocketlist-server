@@ -11,7 +11,7 @@ const flash = require('connect-flash');
 
 //import mongosee
 const mongoose = require("mongoose");
-mongoose.connect("mongodb+srv://danigwn:pocketlist@cluster0.2amoj.mongodb.net/pocketlist?retryWrites=true&w=majority", {
+mongoose.connect("mongodb+srv://danigwn:pocketlist90@cluster0.2amoj.mongodb.net/pocketlist?retryWrites=true&w=majority", {
   useNewUrlParser: true,
   useNewUrlParser: true,
   useUnifiedTopology: true,

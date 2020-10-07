@@ -25,7 +25,8 @@
             <td><%= category[i].ctgName %></td>
             <td><%= category[i].ctgType %></td>
             <td style="text-align: center">
-              <img src="http://localhost:3000/<%= category[i].ctgImageUrl %>" alt="imageUrl" height="35px">
+              <img src="https://admin-pocketlist.herokuapp.com/<%= category[i].ctgImageUrl %>" alt="imageUrl"
+                height="35px">
             </td>
             <td style="text-align: center">
               <form action="/admin/category/<%= category[i].id %>?_method=DELETE" method="POST">
