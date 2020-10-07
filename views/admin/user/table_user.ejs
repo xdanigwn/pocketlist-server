@@ -1,0 +1,44 @@
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-modal">
+      <i class="fas fa-plus"> </i>
+    </button>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Full Name</th>
+            <th>Username</th>
+            <th>Role</th>
+            <th style="text-align: center">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for(let i = 0; i< user.length; i++ ){ %>
+          <tr>
+            <td><%= i+1 %></td>
+            <td><%= user[i].fullName %></td>
+            <td><%= user[i].userName %></td>
+            <td><%= user[i].role %></td>
+            <td style="text-align: center">
+              <form action="/admin/user/<%= user[i].id %>?_method=DELETE" method="POST">
+                <a href="javascript:void(0);" type="button" class="button-update" style="color: #fa991c"
+                  data-id="<%= user[i].id %>" data-name="<%= user[i].fullName %>" data-user="<%= user[i].userName %>"
+                  data-pass="<%= user[i].pass %>" data-role="<%= user[i].role %>"><i
+                    class="fas fa-pencil-alt pr-2"></i></a>
+                <button type="submit" href="" style="color: #fa991c" class="btn-delete pr-4"><i
+                    class="fas fa-trash-alt"></i></button>
+              </form>
+            </td>
+          </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,57 @@
+<!-- Modal -->
+<div class="modal fade" id="add-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Account</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="/admin/account" method="POST" enctype="multipart/form-data">
+        <div class="container">
+          <div class="modal-body">
+            <div class="form-group row pr-3">
+              <label class="col-4" for="name">Name</label>
+              <input class="col-8" type="text" class="form-control accName" id="accName" name="accName" required />
+            </div>
+
+            <div class="form-group row pr-3">
+              <label class="col-4" for="accType">Account Type</label>
+              <select class="col-8 custom-select accType" id="accType" name="accType">
+                <option selected>Pilih...</option>
+                <option value="Debit">Debit</option>
+                <option value="EMoney">EMoney</option>
+                <option value="Cash">Cash</option>
+                <option value="Credit">Credit</option>
+              </select>
+            </div>
+            <div class="form-group row pr-3">
+              <label class="col-4" for="name">Balance</label>
+              <input class="col-8" type="number" class="form-control balance" id="balance" name="balance" required />
+            </div>
+            <div class="form-group row pr-3">
+              <label class="col-4" for="user">Pilih User</label>
+              <select class="col-8 custom-select" name="userId">
+                <option selected>Pilih...</option>
+                <% for(let i=0; i < user.length; i++) { %>
+                <option value="<%= user[i].id %>"><%= user[i].userName %></option>
+                <% } %>
+              </select>
+            </div>
+            <div class="form-group row pr-3">
+              <label class="col-4" for="image">Image</label>
+              <input class="col-8" type="file" name="image" />
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-light" data-dismiss="modal">
+            Close
+          </button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

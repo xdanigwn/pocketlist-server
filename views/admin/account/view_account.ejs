@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../../partials/header.ejs') %>
+
+<!-- Page Wrapper -->
+
+<body id="page-top">
+  <div id="wrapper">
+    <!-- Sidebar -->
+    <%- include('../../partials/sidebar.ejs') %>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+      <!-- Main Content -->
+      <div id="content">
+        <!-- Topbar -->
+        <%- include('../../partials/navbar.ejs') %>
+
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+          <% if(alert.message != "") { %>
+          <div class="alert alert-<%= alert.status %>" role="alert">
+            <%= alert.message %>
+          </div>
+          <% } %>
+
+          <!-- Page Heading -->
+          <h1 class="h4 mb-4 text-gray-800">Account</h1>
+          <!-- End Heading -->
+          <%- include('table_account.ejs') %>
+        </div>
+        <!-- /.container-fluid -->
+      </div>
+      <!-- End of Main Content -->
+
+      <!-- Footer -->
+      <%- include('../../partials/footer.ejs') %>
+      <!-- End of Footer -->
+    </div>
+    <!-- End of Content Wrapper -->
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button -->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+</body>
+
+</html>
+<%- include('add_modal.ejs') %>
+<%- include('edit_modal.ejs') %>
+<%- include('../../partials/javascript.ejs') %>
+<script>
+  $("#dataTable").on("click", ".button-update", function () {
+    let id = $(this).data("id");
+    let name = $(this).data("name");
+    let type = $(this).data("type");
+    let balance = $(this).data("balance");
+    let user = $(this).data("user");
+    // console.log(name);
+
+    $("#edit-modal").modal("show");
+    $(".id").val(id);
+    $(".accName").val(name);
+    $(".accType").val(type).change();
+    $(".balance").val(balance);
+    $(".userId").val(user).change();
+  });
+</script>

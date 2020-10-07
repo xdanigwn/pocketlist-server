@@ -1,0 +1,43 @@
+<!-- Modal -->
+<div class="modal fade" id="edit-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Update Category</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="/admin/category?_method=PUT" method="POST" enctype="multipart/form-data">
+        <div class="container">
+          <div class="modal-body">
+            <div class="form-group row pr-3">
+              <label class="col-4" for="name">Name</label>
+              <input class="col-8 ctgName" type="text" id="ctgName" name="ctgName" required />
+            </div>
+            <div class="form-group row pr-3">
+              <label class="col-4" for="type">Type</label>
+              <select class="col-8 custom-select ctgType" id="ctgType" name="ctgType">
+                <option selected>Pilih...</option>
+                <option value="Income">Income</option>
+                <option value="Expense">Expense</option>
+                <option value="Transfer">Transfer</option>
+                <option value="Cost">Cost</option>
+                <option value="Revenue">Revenue</option>
+              </select>
+            </div>
+            <div class="form-group row pr-3">
+              <label class="col-4" for="image">Image</label>
+              <input class="col-8" type="file" name="image" />
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <input type="hidden" class="id" name="id" id="id" />
+          <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Update</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
