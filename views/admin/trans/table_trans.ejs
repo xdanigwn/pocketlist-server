@@ -32,10 +32,12 @@
             <td><%= trans[i].operator %></td>
             <td><%= trans[i].userId.userName %></td>
             <td style="text-align: center">
-              <img src="http://localhost:3000/<%= trans[i].accountId.accImageUrl %>" alt="imageUrl" height="35px" />
+              <img src="https://admin-pocketlist.herokuapp.com/<%= trans[i].accountId.accImageUrl %>" alt="imageUrl"
+                height="35px" />
             </td>
             <td style="text-align: center">
-              <img src="http://localhost:3000/<%= trans[i].categoryId.ctgImageUrl %>" alt="imageUrl" height="35px" />
+              <img src="https://admin-pocketlist.herokuapp.com/<%= trans[i].categoryId.ctgImageUrl %>" alt="imageUrl"
+                height="35px" />
             </td>
             <td style="text-align: center">
               <form action="/admin/trans/<%= trans[i].id %>?_method=DELETE" method="POST">
