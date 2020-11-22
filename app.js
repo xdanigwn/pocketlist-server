@@ -3,20 +3,23 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+var cors = require("cors");
 
-
-const methodOverride = require('method-override');
-const session = require('express-session')
-const flash = require('connect-flash');
+const methodOverride = require("method-override");
+const session = require("express-session");
+const flash = require("connect-flash");
 
 //import mongosee
 const mongoose = require("mongoose");
-mongoose.connect("mongodb+srv://danigwn:pocketlist90@cluster0.2amoj.mongodb.net/pocketlist?retryWrites=true&w=majority", {
-  useNewUrlParser: true,
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useCreateIndex: true,
-});
+mongoose.connect(
+  "mongodb+srv://danigwn:pocketlist90@cluster0.2amoj.mongodb.net/pocketlist?retryWrites=true&w=majority",
+  {
+    useNewUrlParser: true,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+  }
+);
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
@@ -29,17 +32,21 @@ const apiRouter = require("./routes/api");
 
 var app = express();
 
+app.use(cors());
+
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-app.use(methodOverride('_method'));
-app.use(session({
-  secret: 'keyboard cat',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { maxAge: 100000 }
-}))
+app.use(methodOverride("_method"));
+app.use(
+  session({
+    secret: "keyboard cat",
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 100000 },
+  })
+);
 app.use(flash());
 
 app.use(logger("dev"));
@@ -49,7 +56,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(
   "/sb-admin-2",
-  express.static(path.join(__dirname, "public/stylesheets/startbootstrap-sb-admin-2"))
+  express.static(
+    path.join(__dirname, "public/stylesheets/startbootstrap-sb-admin-2")
+  )
 );
 
 app.use("/", indexRouter);
