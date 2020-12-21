@@ -99,19 +99,29 @@ module.exports = {
         return res.status(405).json({ message: "Lengkapi semua field" });
       }
 
-      // res.status(200).json({ category: category.ctgType });
-      if (category.ctgType === "Expense" || category.ctgType === "Income") {
+      // FUNGSI EXPESE / INCOME / TRANSFER
+      if (category.ctgType === "Expense") {
         await Trans.create({
           transDate,
           transDesc,
-          ammount,
-          operator,
+          operator : "-",
           accountId,
           categoryId,
           userId,
         });
-        return res.status(200).json({ message: "Success Submit" });
-      }
+        return res.status(200).json({ message: "Success Submit Trans" });
+      }else if (category.ctgType === "Income") {
+          await Account.create({
+            transDate,
+            transDesc,
+            ammount,
+            operator : "+",
+            accountId,
+            categoryId,
+            userId,
+          });
+          return res.status(200).json({ message: "Success Submit" });
+        }
     } catch (error) {
       res.status(500).json({ message: "Internal server error" });
     }
