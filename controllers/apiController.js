@@ -111,9 +111,6 @@ module.exports = {
           userId,
         });
 
-        const account = await Account.findOne({ _id: accountId });
-        account.balance = account.balance - ammount;
-        await account.save();
         return res.status(200).json({ message: "Success Submit Trans" });
       }else if (category.ctgType === "Income") {
           await Account.create({
