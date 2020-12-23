@@ -69,7 +69,7 @@ module.exports = {
         sumExpense,
         sumIncome,
         account,
-        category,
+        categoryExp,
       });
     } catch (error) {
       console.log(error);
