@@ -58,6 +58,10 @@ module.exports = {
         "accName accType balance accImageUrl"
       );
 
+      const category = await Category.find().select(
+        "ctgName ctgType ctgImageUrl"
+      );
+
       //MENAMPILKAN HASIL QUERY KEDALAM JSON
       res.status(200).json({
         //TOTALBALANCE
@@ -65,6 +69,7 @@ module.exports = {
         sumExpense,
         sumIncome,
         account,
+        category,
       });
     } catch (error) {
       console.log(error);
