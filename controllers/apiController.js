@@ -58,7 +58,7 @@ module.exports = {
         "accName accType balance accImageUrl"
       );
 
-      const category = await Category.find().select(
+      const categoryExp = await Category.find({ ctgType: "Expense" }).select(
         "ctgName ctgType ctgImageUrl"
       );
 
