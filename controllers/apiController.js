@@ -138,7 +138,7 @@ module.exports = {
           });
 
           const account = await Account.findOne({ _id: accountId });
-          account.balance = account.balance - ammount;
+          account.balance -= ammount;
           console.log(account);
 
           await account.save();
@@ -155,7 +155,7 @@ module.exports = {
           });
 
           const account = await Account.findOne({ _id: accountId });
-          account.balance = account.balance + ammount;
+          account.balance += ammount;
           console.log(account);
   
           await account.save();
