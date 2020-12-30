@@ -127,24 +127,24 @@ module.exports = {
 
       // FUNGSI EXPESE / INCOME / TRANSFER
       if (category.ctgType === "Expense") {
-        await Trans.create({
-          transDate,
-          transDesc,
-          ammount,
-          operator : "-",
-          accountId,
-          categoryId,
-          userId,
-        });
+          await Trans.create({
+            transDate,
+            transDesc,
+            ammount,
+            operator : "-",
+            accountId,
+            categoryId,
+            userId,
+          });
 
-        const account = await Account.findOne({ _id: accountId });
-        account.balance = account.balance - ammount;
-        console.log(account);
+          const account = await Account.findOne({ _id: accountId });
+          account.balance = account.balance - ammount;
+          console.log(account);
 
-        await account.save();
-        return res.status(200).json({ message: "Success Submit Trans" });
+          await account.save();
+          return res.status(200).json({ message: "Success Submit Trans" });
       }else if (category.ctgType === "Income") {
-          await Account.create({
+          await Trans.create({
             transDate,
             transDesc,
             ammount,
