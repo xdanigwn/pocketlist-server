@@ -155,7 +155,7 @@ module.exports = {
           });
 
           const account = await Account.findOne({ _id: accountId });
-          account.balance += 100;
+          account.balance += ammount;
           console.log(account);
   
           await account.save();
