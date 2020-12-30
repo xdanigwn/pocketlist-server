@@ -153,6 +153,12 @@ module.exports = {
             categoryId,
             userId,
           });
+
+          const account = await Account.findOne({ _id: accountId });
+          account.balance = account.balance + ammount;
+          console.log(account);
+  
+          await account.save();
           return res.status(200).json({ message: "Success Submit" });
         }
     } catch (error) {
