@@ -58,6 +58,10 @@ module.exports = {
         "accName accType balance accImageUrl"
       );
 
+      const categoryInc = await Category.find({ ctgType: "Income" }).select(
+        "ctgName ctgType ctgImageUrl"
+      );
+
       const categoryExp = await Category.find({ ctgType: "Expense" }).select(
         "ctgName ctgType ctgImageUrl"
       );
@@ -69,10 +73,27 @@ module.exports = {
         sumExpense,
         sumIncome,
         account,
+        categoryInc,
         categoryExp,
       });
     } catch (error) {
       console.log(error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  },
+  accountDetail: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const trans = await Trans.find({ accountId: id })
+        .populate({ path: 'categoryId', select: '_id ctgName ctgType ctgImageUrl' })
+        .populate({ path: 'accountId', select: '_id balance accType accName accImageUrl' })
+        .sort( { transDate: -1 } )
+
+      res.status(200).json({
+        trans
+      })
+
+    } catch (error) {
       res.status(500).json({ message: "Internal server error" });
     }
   },
