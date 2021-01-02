@@ -12,7 +12,7 @@ const flash = require("connect-flash");
 //import mongosee
 const mongoose = require("mongoose");
 mongoose.connect(
-  "mongodb+srv://danigwn:pocketlist90@cluster0.2amoj.mongodb.net/pocketlist?retryWrites=true&w=majority",
+  "mongodb://danigwn:pocketlist90@cluster0-shard-00-01.2amoj.mongodb.net:27017/pocketlist?authSource=admin&replicaSet=atlas-x92bub-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true",
   {
     useNewUrlParser: true,
     useNewUrlParser: true,

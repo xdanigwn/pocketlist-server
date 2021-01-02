@@ -87,7 +87,7 @@ module.exports = {
       const trans = await Trans.find({ accountId: id })
         .populate({ path: 'categoryId', select: '_id ctgName ctgType ctgImageUrl' })
         .populate({ path: 'accountId', select: '_id balance accType accName accImageUrl' })
-        .sort( { transDate: -1 } )
+        .sort({ transDate:-1, _id: -1 } )
 
       res.status(200).json({
         trans
