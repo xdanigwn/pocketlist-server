@@ -5,5 +5,6 @@ const apiController = require("../controllers/apiController");
 router.get("/overview", apiController.overview);
 router.get("/accountdtl/:id", apiController.accountDetail);
 router.post("/addtrans", apiController.addTrans);
+router.get("/deltrans/:id", apiController.delTrans);
 
 module.exports = router;

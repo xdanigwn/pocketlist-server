@@ -84,6 +84,7 @@ module.exports = {
   accountDetail: async (req, res) => {
     try {
       const { id } = req.params;
+      
       const trans = await Trans.find({ accountId: id })
         .populate({ path: 'categoryId', select: '_id ctgName ctgType ctgImageUrl' })
         .populate({ path: 'accountId', select: '_id balance accType accName accImageUrl' })
@@ -93,6 +94,28 @@ module.exports = {
         trans
       })
 
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
+    }
+  },
+
+  delTrans: async (req, res) => {
+    try {
+      const { id } = req.params;
+    
+      const trans = await Trans.findOne({ _id: id })
+     
+      const account = await Account.findOne({ _id: trans.accountId });
+      if (trans.operator === "-"){
+        account.balance += parseInt(trans.ammount);
+      }else{
+        account.balance -= parseInt(trans.ammount);
+      }
+      
+      await account.save();
+      await trans.remove();
+
+      return res.status(200).json({ message: "Success Delete Trans" });
     } catch (error) {
       res.status(500).json({ message: "Internal server error" });
     }
@@ -138,7 +161,7 @@ module.exports = {
           });
 
           const account = await Account.findOne({ _id: accountId });
-          account.balance -= ammount;
+          account.balance -= parseInt(ammount);
           console.log(account);
 
           await account.save();
