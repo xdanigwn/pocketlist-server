@@ -5,12 +5,6 @@ const Trans = require("../model/Trans");
 module.exports = {
   overview: async (req, res) => {
     try {
-      // const totalIncome = "hello json"
-      // res.status(200).json({ message })
-      // const totaBalance = await Account.aggregate([{ $match: { "balance": { "$in": ['Debit'] } } }, {
-      //     $group:
-      //         { _id: null, "total": { $sum: "$balance" } }
-      // }])
 
       const totaBalance = await Account.aggregate([
         { $match: {} },
@@ -211,15 +205,21 @@ module.exports = {
             ammount,
             operator : "-",
             accountId,
-            categoryId : "5f76b4626d06cb30700703a6",
+            categoryId : "5f76b4626d06cb30700703a6", // KATEGORI PASTI TRANSFER
+            toAccount,
             userId,
           });
 
-          const account = await Account.findOne({ _id: accountId });
-          account.balance -= parseInt(ammount);
-          console.log(account);
-  
-          await account.save();
+          const accountDec = await Account.findOne({ _id: accountId });
+          accountDec.balance -= parseInt(ammount);
+          console.log(accountDec);
+          await accountDec.save();
+
+          const accountInc = await Account.findOne({ _id: toAccount });
+          accountInc.balance += parseInt(ammount);
+          console.log(accountInc);
+          await accountInc.save();
+
           return res.status(200).json({ message: "Success Submit" });
         }
     } catch (error) {
