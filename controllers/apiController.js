@@ -199,29 +199,39 @@ module.exports = {
           await account.save();
           return res.status(200).json({ message: "Success Submit" });
         }else if (category.ctgType === "Transfer") {
-          console.log(category)
+          await Trans.create({
+            transDate,
+            transDesc,
+            ammount,
+            operator : "-",
+            accountId,
+            categoryId, // KATEGORI PASTI TRANSFER
+            // toAccount,
+            userId,
+          });
+
+          const accountDec = await Account.findOne({ _id: accountId });
+          accountDec.balance -= parseInt(ammount);
+          console.log(accountDec);
+          await accountDec.save();
+
           // await Trans.create({
           //   transDate,
           //   transDesc,
           //   ammount,
-          //   operator : "-",
-          //   accountId,
-          //   categoryId : "5f76b4626d06cb30700703a6", // KATEGORI PASTI TRANSFER
-          //   toAccount,
+          //   operator : "+",
+          //   accountId = toAccount,
+          //   categoryId, // KATEGORI PASTI TRANSFER
+          //   // toAccount,
           //   userId,
           // });
-
-          // const accountDec = await Account.findOne({ _id: accountId });
-          // accountDec.balance -= parseInt(ammount);
-          // console.log(accountDec);
-          // await accountDec.save();
 
           // const accountInc = await Account.findOne({ _id: toAccount });
           // accountInc.balance += parseInt(ammount);
           // console.log(accountInc);
           // await accountInc.save();
 
-          // return res.status(200).json({ message: "Success Submit" });
+          return res.status(200).json({ message: "Success Submit" });
         }
     } catch (error) {
       res.status(500).json({ message: "Internal server error" });
