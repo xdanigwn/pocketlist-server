@@ -20,15 +20,13 @@ module.exports = {
       ]);
 
       //EXPENSE
-      const idExpense = await Category.find({ ctgType: "Expense" }).select(
-        "_id"
-      );
+      const idExpense = await Category.find({ ctgType: "Expense" }).select("_id");
       const Expense = await Trans.find(
         {
           categoryId: { $in: idExpense },
         },
         {
-          ammount: 1,
+          ammount: 1, // FUNGSI SORT
         }
       );
       let sumExpense = 0;
@@ -66,6 +64,11 @@ module.exports = {
         "ctgName ctgType ctgImageUrl"
       );
 
+      // const { id } = req.params;
+      // const accTransfer = await Account.find({_id:{$ne:"5f6f690a9fd56b291005a358"} }).select(
+      //   "accName accType accImageUrl"
+      // );
+
       //MENAMPILKAN HASIL QUERY KEDALAM JSON
       res.status(200).json({
         //TOTALBALANCE
@@ -74,13 +77,31 @@ module.exports = {
         sumIncome,
         account,
         categoryInc,
-        categoryExp,
+        categoryExp
       });
     } catch (error) {
       console.log(error);
       res.status(500).json({ message: "Internal server error" });
     }
   },
+
+  accountDropDown: async (req, res) => {
+  try {
+
+    const { id } = req.params;
+    const accTransfer = await Account.find({ _id: {$ne:id} }).select(
+      "accName accType accImageUrl"
+    );
+
+    res.status(200).json({
+      accTransfer
+    })
+    
+  } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
+    }
+  },
+
   accountDetail: async (req, res) => {
     try {
       const { id } = req.params;
@@ -179,6 +200,23 @@ module.exports = {
 
           const account = await Account.findOne({ _id: accountId });
           account.balance += parseInt(ammount);
+          console.log(account);
+  
+          await account.save();
+          return res.status(200).json({ message: "Success Submit" });
+        }else if (category.ctgType === "Transfer") {
+          await Trans.create({
+            transDate,
+            transDesc,
+            ammount,
+            operator : "-",
+            accountId,
+            categoryId : "5f76b4626d06cb30700703a6",
+            userId,
+          });
+
+          const account = await Account.findOne({ _id: accountId });
+          account.balance -= parseInt(ammount);
           console.log(account);
   
           await account.save();

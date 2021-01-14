@@ -4,6 +4,7 @@ const apiController = require("../controllers/apiController");
 //endpoint login
 router.get("/overview", apiController.overview);
 router.get("/accountdtl/:id", apiController.accountDetail);
+router.get("/accountdd/:id", apiController.accountDropDown);
 router.post("/addtrans", apiController.addTrans);
 router.get("/deltrans/:id", apiController.delTrans);
 
