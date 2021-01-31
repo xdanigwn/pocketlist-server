@@ -146,7 +146,7 @@ module.exports = {
         accountId,
         categoryId,
         userId,
-        id
+        accountIdTo
       } = req.body;
 
      
@@ -203,7 +203,7 @@ module.exports = {
           return res.status(200).json({ message: "Success Submit" });
         }else if (category.ctgType === "Transfer") {
 
-          console.log(category.ctgType);
+          // console.log(category.ctgType);
 
           // await Trans.create({
           //   transDate,
@@ -248,7 +248,7 @@ module.exports = {
           // console.log(accountInc);
           // await accountInc.save();
 
-          return res.status(200).json({ message: id });
+          return res.status(200).json({ message: accountIdTo });
         }
     } catch (error) {
       res.status(500).json({ message: "Internal server error" });
