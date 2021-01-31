@@ -146,6 +146,7 @@ module.exports = {
         accountId,
         categoryId,
         userId,
+        id
       } = req.body;
 
      
@@ -247,7 +248,7 @@ module.exports = {
           // console.log(accountInc);
           // await accountInc.save();
 
-          return res.status(200).json({ message: category.ctgType });
+          return res.status(200).json({ message: id });
         }
     } catch (error) {
       res.status(500).json({ message: "Internal server error" });
