@@ -215,11 +215,11 @@ module.exports = {
           //   userId,
           // });
 
-          await Trans.create({
+         await Trans.create({
             transDate,
             transDesc,
             ammount,
-            operator : "+",
+            operator : "-",
             accountIdTo,
             categoryId, // KATEGORI PASTI TRANSFER
             userId,
