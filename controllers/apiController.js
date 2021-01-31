@@ -202,7 +202,7 @@ module.exports = {
           return res.status(200).json({ message: "Success Submit" });
         }else if (category.ctgType === "Transfer") {
 
-          console.log(transDate)
+          console.log(category.ctgType);
 
           // await Trans.create({
           //   transDate,
