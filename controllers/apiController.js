@@ -205,15 +205,15 @@ module.exports = {
 
           // console.log(category.ctgType);
 
-          await Trans.create({
-            transDate,
-            transDesc,
-            ammount,
-            operator : "-",
-            accountId,
-            categoryId, // KATEGORI PASTI TRANSFER
-            userId,
-          });
+          // await Trans.create({
+          //   transDate,
+          //   transDesc,
+          //   ammount,
+          //   operator : "-",
+          //   accountId,
+          //   categoryId, // KATEGORI PASTI TRANSFER
+          //   userId,
+          // });
 
           await Trans.create({
             transDate,
