@@ -247,7 +247,7 @@ module.exports = {
           // console.log(accountInc);
           // await accountInc.save();
 
-          return res.status(200).json({ message: "Success Submit" });
+          return res.status(200).json({ message: category.ctgType });
         }
     } catch (error) {
       res.status(500).json({ message: "Internal server error" });
