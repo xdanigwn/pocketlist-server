@@ -205,48 +205,35 @@ module.exports = {
 
           // console.log(category.ctgType);
 
-          // await Trans.create({
-          //   transDate,
-          //   transDesc,
-          //   ammount,
-          //   operator : "-",
-          //   accountId,
-          //   categoryId, // KATEGORI PASTI TRANSFER
-          //   // toAccount,
-          //   userId,
-          // });
+          await Trans.create({
+            transDate,
+            transDesc,
+            ammount,
+            operator : "-",
+            accountId,
+            categoryId, // KATEGORI PASTI TRANSFER
+            userId,
+          });
 
-          // await Trans.create({
-          //   transDate,
-          //   transDesc,
-          //   ammount,
-          //   operator : "+",
-          //   accountId,
-          //   categoryId, // KATEGORI PASTI TRANSFER
-          //   // toAccount,
-          //   userId,
-          // });
+          await Trans.create({
+            transDate,
+            transDesc,
+            ammount,
+            operator : "+",
+            accountIdTo,
+            categoryId, // KATEGORI PASTI TRANSFER
+            userId,
+          });
 
-          // const accountDec = await Account.findOne({ _id: accountId });
-          // accountDec.balance -= parseInt(ammount);
-          // console.log(accountDec);
-          // await accountDec.save();
+          const accountDec = await Account.findOne({ _id: accountId });
+          accountDec.balance -= parseInt(ammount);
+          console.log(accountDec);
+          await accountDec.save();
 
-          // await Trans.create({
-          //   transDate,
-          //   transDesc,
-          //   ammount,
-          //   operator : "+",
-          //   accountId = toAccount,
-          //   categoryId, // KATEGORI PASTI TRANSFER
-          //   // toAccount,
-          //   userId,
-          // });
-
-          // const accountInc = await Account.findOne({ _id: toAccount });
-          // accountInc.balance += parseInt(ammount);
-          // console.log(accountInc);
-          // await accountInc.save();
+          const accountInc = await Account.findOne({ _id: accountIdTo });
+          accountInc.balance += parseInt(ammount);
+          console.log(accountInc);
+          await accountInc.save();
 
           return res.status(200).json({ message: accountIdTo });
         }
