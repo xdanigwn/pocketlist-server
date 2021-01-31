@@ -147,6 +147,8 @@ module.exports = {
         categoryId,
         userId,
       } = req.body;
+
+     
       const category = await Category.findOne({ _id: categoryId });
       // res.status(200).json({ category });
 
@@ -199,21 +201,35 @@ module.exports = {
           await account.save();
           return res.status(200).json({ message: "Success Submit" });
         }else if (category.ctgType === "Transfer") {
-          await Trans.create({
-            transDate,
-            transDesc,
-            ammount,
-            operator : "-",
-            accountId,
-            categoryId, // KATEGORI PASTI TRANSFER
-            // toAccount,
-            userId,
-          });
 
-          const accountDec = await Account.findOne({ _id: accountId });
-          accountDec.balance -= parseInt(ammount);
-          console.log(accountDec);
-          await accountDec.save();
+          console.log(trans.transDate)
+
+          // await Trans.create({
+          //   transDate,
+          //   transDesc,
+          //   ammount,
+          //   operator : "-",
+          //   accountId,
+          //   categoryId, // KATEGORI PASTI TRANSFER
+          //   // toAccount,
+          //   userId,
+          // });
+
+          // await Trans.create({
+          //   transDate,
+          //   transDesc,
+          //   ammount,
+          //   operator : "+",
+          //   accountId,
+          //   categoryId, // KATEGORI PASTI TRANSFER
+          //   // toAccount,
+          //   userId,
+          // });
+
+          // const accountDec = await Account.findOne({ _id: accountId });
+          // accountDec.balance -= parseInt(ammount);
+          // console.log(accountDec);
+          // await accountDec.save();
 
           // await Trans.create({
           //   transDate,
