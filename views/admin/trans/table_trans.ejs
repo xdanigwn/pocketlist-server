@@ -28,7 +28,7 @@
             <td><%= i+1 %></td>
             <td><%= moment(trans[i].transDate).format("DD/MM/yyyy") %></td>
             <td><%= trans[i].transDesc %></td>
-            <td><%= trans[i].ammount %></td>
+            <td><%= Intl.NumberFormat("en-US", { style: "decimal" }).format(trans[i].ammount) %></td>
             <td><%= trans[i].operator %></td>
             <td><%= trans[i].userId.userName %></td>
             <td style="text-align: center">

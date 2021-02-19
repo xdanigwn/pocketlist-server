@@ -219,7 +219,8 @@ module.exports = {
   viewAccount: async (req, res) => {
     try {
       const account = await Account.find()
-        .populate({ path: "userId", select: "id userName" });
+        .populate({ path: "userId", select: "id userName" })
+        .sort({ accName:1 } );
       const user = await User.find();
       console.log(account);
       const alertMessage = req.flash("alertMessage");
