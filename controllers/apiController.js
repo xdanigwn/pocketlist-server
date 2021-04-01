@@ -100,7 +100,7 @@ module.exports = {
     try {
       const { id } = req.params;
       
-      const trans = await Trans.find({ accountId: id })
+      const trans = await Trans.find({ accountId: id})
         .populate({ path: 'categoryId', select: '_id ctgName ctgType ctgImageUrl' })
         .populate({ path: 'accountId', select: '_id balance accType accName accImageUrl' })
         .sort({ transDate:-1, _id: -1 } )
@@ -113,6 +113,161 @@ module.exports = {
       res.status(500).json({ message: "Internal server error" });
     }
   },
+
+  personalIncomeDetail: async (req, res) => {
+    try {
+      const { id } = req.params;
+      
+      const trans = await Trans.aggregate([
+          { 
+            $lookup: { // left join
+              from: Category.collection.name, 
+              localField : "categoryId",
+              foreignField: "_id",
+              as : "transCtg"
+            }      
+          },
+          { $unwind:"$transCtg" }, // $unwind used for getting data in object or for one record only
+          {
+            $match : {
+              "transCtg.ctgType" : "Expense"
+          }},
+          { 
+            $lookup: { // left join
+              from: Account.collection.name, 
+              localField : "accountId",
+              foreignField: "_id",
+              as : "transAcc"
+            }      
+          },
+          { $unwind:"$transAcc" }, 
+
+      ]);
+
+      res.status(200).json({
+        trans
+      })
+
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
+    }
+  },
+
+  personalExpenseDetail: async (req, res) => {
+    try {
+      const { id } = req.params;
+      
+      const trans = await Trans.aggregate([
+          { 
+            $lookup: { // left join
+              from: Category.collection.name, 
+              localField : "categoryId",
+              foreignField: "_id",
+              as : "transCtg"
+            }      
+          },
+          { $unwind:"$transCtg" }, // $unwind used for getting data in object or for one record only
+          {
+            $match : {
+              "transCtg.ctgType" : "Expense"
+          }},
+          { 
+            $lookup: { // left join
+              from: Account.collection.name, 
+              localField : "accountId",
+              foreignField: "_id",
+              as : "transAcc"
+            }      
+          },
+          { $unwind:"$transAcc" }, 
+
+      ]);
+
+      res.status(200).json({
+        trans
+      })
+
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
+    }
+  },
+
+  reportExpenseCategory: async (req, res) => {
+    try {
+      const { id } = req.params;
+      
+      const transexp = await Trans.aggregate([
+          { 
+            $lookup: { // left join
+              from: Category.collection.name, 
+              localField : "categoryId",
+              foreignField: "_id",
+              as : "transCtg"
+            }      
+          },
+          { $unwind:"$transCtg" },
+          {
+            $match : {
+              "transCtg.ctgType" : "Expense"
+            }
+          },
+          {
+            $group :
+              {
+                _id : "$transCtg.ctgName",
+                total: { $sum: "$ammount" } 
+              }
+          },
+          
+      ]);
+
+      res.status(200).json({
+        transexp
+      })
+
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
+    }
+  },
+
+  reportIncomeCategory: async (req, res) => {
+    try {
+      const { id } = req.params;
+      
+      const transinc = await Trans.aggregate([
+          { 
+            $lookup: { // left join
+              from: Category.collection.name, 
+              localField : "categoryId",
+              foreignField: "_id",
+              as : "transCtg"
+            }      
+          },
+          { $unwind:"$transCtg" },
+          {
+            $match : {
+              "transCtg.ctgType" : "Income"
+            }
+          },
+          {
+            $group :
+              {
+                _id : "$transCtg.ctgName",
+                total: { $sum: "$ammount" } 
+              }
+          },
+          
+      ]);
+
+      res.status(200).json({
+        transinc
+      })
+
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
+    }
+  },
+
 
   delTrans: async (req, res) => {
     try {
