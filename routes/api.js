@@ -5,6 +5,7 @@ const apiController = require("../controllers/apiController");
 router.get("/overview", apiController.overview);
 router.get("/accountdtl/:id", apiController.accountDetail); //id = id account
 router.get("/accountdd/:id", apiController.accountDropDown); //id = id account yg tidak ses dengan acc yg dipilih
+router.get("/balanceinfo/:id", apiController.balanceInfo); //id = id user
 router.get("/personalincdtl/:id", apiController.personalIncomeDetail); //id = id user
 router.get("/personalexpdtl/:id", apiController.personalExpenseDetail); //id = id user
 router.get("/reportexpctg/:id", apiController.reportExpenseCategory); //id = id user

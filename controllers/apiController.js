@@ -13,11 +13,14 @@ module.exports = {
         },
       ]);
 
-      //EXPENSE
+      //EXPENSE - 2 TAHAP INQUIRY ID EXPENSE LALU FILTER
       const idExpense = await Category.find({ ctgType: "Expense" }).select("_id");
       const Expense = await Trans.find(
         {
           categoryId: { $in: idExpense },
+          transDate : { $gte : '2021-04-01 00:00:00',
+                        $lt: '2021-04-09 23:59:59'
+                      }
         },
         {
           ammount: 1, // FUNGSI SORT
@@ -27,11 +30,14 @@ module.exports = {
       for (i = 0; i < Expense.length; i++) {
         sumExpense = sumExpense + Expense[i].ammount;
       }
-      //INCOME
+      //INCOME - 2 TAHAP INQUIRY ID INCOME LALU FILTER
       const idIncome = await Category.find({ ctgType: "Income" }).select("_id");
       const Income = await Trans.find(
         {
           categoryId: { $in: idIncome },
+          transDate : { $gte : '2021-04-01 00:00:00',
+                        $lt: '2021-04-09 23:59:59'
+                      }
         },
         {
           ammount: 1,
@@ -107,6 +113,39 @@ module.exports = {
 
       res.status(200).json({
         trans
+      })
+
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
+    }
+  },
+
+  balanceInfo: async (req, res) => {
+    try {
+      const { id } = req.params;
+      
+      const accDebit = await Account.find({ userId: id, accType: "Debit"})
+        .sort({ balance: -1, accName:-1 } )
+
+      const accCredit = await Account.find({ userId: id, accType: "Credit"})
+        .sort({ balance: -1, accName:-1 } )
+
+    
+      let sumDebit = 0;
+      for (i = 0; i < accDebit.length; i++) {
+        sumDebit = sumDebit + accDebit[i].balance;
+      }
+
+      let sumCredit = 0;
+      for (i = 0; i < accCredit.length; i++) {
+        sumCredit = sumCredit + accCredit[i].balance;
+      }
+
+      res.status(200).json({
+        accDebit,
+        accCredit,
+        sumDebit,
+        sumCredit
       })
 
     } catch (error) {
