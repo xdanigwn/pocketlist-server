@@ -6,6 +6,7 @@ module.exports = {
   overview: async (req, res) => {
     try {
 
+      // QUERY TOTAL BALANCE
       const totaBalance = await Account.aggregate([
         { $match: {} },
         {
@@ -13,13 +14,16 @@ module.exports = {
         },
       ]);
 
+      const dateFrom = req.params.dateFrom.concat(" 00:00:00")
+      const dateTo = req.params.dateTo.concat(" 23:59:59")
+
       //EXPENSE - 2 TAHAP INQUIRY ID EXPENSE LALU FILTER
       const idExpense = await Category.find({ ctgType: "Expense" }).select("_id");
       const Expense = await Trans.find(
         {
           categoryId: { $in: idExpense },
-          transDate : { $gte : '2021-04-01 00:00:00',
-                        $lt: '2021-04-09 23:59:59'
+          transDate : { $gte : dateFrom,
+                        $lt: dateTo
                       }
         },
         {
@@ -35,8 +39,8 @@ module.exports = {
       const Income = await Trans.find(
         {
           categoryId: { $in: idIncome },
-          transDate : { $gte : '2021-04-01 00:00:00',
-                        $lt: '2021-04-09 23:59:59'
+          transDate : { $gte : dateFrom,
+                        $lt: dateTo
                       }
         },
         {
@@ -80,7 +84,7 @@ module.exports = {
         categoryExp
       });
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       res.status(500).json({ message: "Internal server error" });
     }
   },
@@ -157,6 +161,11 @@ module.exports = {
     try {
       const { id } = req.params;
       
+      const dateFrom = req.params.dateFrom.concat(" 00:00:00")
+      const dateTo = req.params.dateTo.concat(" 23:59:59")
+
+      // res.status(500).json({ message: dateTo });
+
       const trans = await Trans.aggregate([
           { 
             $lookup: { // left join
@@ -169,7 +178,12 @@ module.exports = {
           { $unwind:"$transCtg" }, // $unwind used for getting data in object or for one record only
           {
             $match : {
-              "transCtg.ctgType" : "Expense"
+              "transCtg.ctgType" : "Income",
+              "transDate" : {
+                $gte : new Date(dateFrom), // HARUS DIFORMAT MENJADI NEW DATE AGAR BISA DI QUERY PADA AGGREGATE MATCH BETWEEN
+                $lt : new Date(dateTo)
+              },
+              
           }},
           { 
             $lookup: { // left join
@@ -180,6 +194,7 @@ module.exports = {
             }      
           },
           { $unwind:"$transAcc" }, 
+          { $sort : { transDate : -1, _id: 1 } }
 
       ]);
 
@@ -195,6 +210,9 @@ module.exports = {
   personalExpenseDetail: async (req, res) => {
     try {
       const { id } = req.params;
+
+      const dateFrom = req.params.dateFrom.concat(" 00:00:00")
+      const dateTo = req.params.dateTo.concat(" 23:59:59")
       
       const trans = await Trans.aggregate([
           { 
@@ -208,7 +226,11 @@ module.exports = {
           { $unwind:"$transCtg" }, // $unwind used for getting data in object or for one record only
           {
             $match : {
-              "transCtg.ctgType" : "Expense"
+              "transCtg.ctgType" : "Expense",
+              "transDate" : {
+                $gte : new Date(dateFrom), // HARUS DIFORMAT MENJADI NEW DATE AGAR BISA DI QUERY PADA AGGREGATE MATCH BETWEEN
+                $lt : new Date(dateTo)
+              },
           }},
           { 
             $lookup: { // left join
@@ -219,7 +241,7 @@ module.exports = {
             }      
           },
           { $unwind:"$transAcc" }, 
-
+          { $sort : { transDate : -1, _id: 1 } }
       ]);
 
       res.status(200).json({
