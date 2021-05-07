@@ -166,7 +166,8 @@ module.exports = {
       // console.log(token)
       res.cookie("token", token, {
         httpOnly : true,
-        secure: true
+        secure: true,
+        proxy : true
       }).send();
 
       // const verified = jwt.verify(token, "jwtsecret1234") //compare token with secret. if error go to catch
