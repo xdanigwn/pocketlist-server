@@ -5,7 +5,7 @@ const auth = require('../middlewares/auth')
 //endpoint login
 router.get('/login', adminController.viewLogin);
 router.post('/login', adminController.actionLogin);
-router.use(auth);
+router.use(auth); 
 router.get('/logout', adminController.actionLogout);
 router.get('/dashboard', adminController.viewDashboard);
 //endpoint category

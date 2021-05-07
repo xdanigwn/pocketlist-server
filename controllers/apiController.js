@@ -1,26 +1,36 @@
 const Account = require("../model/Account");
 const Category = require("../model/Category");
 const Trans = require("../model/Trans");
+const User = require("../model/User");
+const bcrypt = require("bcryptjs");
+const jwt  = require("jsonwebtoken");
+const mongoose = require('mongoose')
 
 module.exports = {
   overview: async (req, res) => {
     try {
 
+      idStr = req.params.id
+      idObj = mongoose.Types.ObjectId(req.params.id) 
+      const dateFrom = req.params.dateFrom.concat(" 00:00:00")
+      const dateTo = req.params.dateTo.concat(" 23:59:59")
+
+      // res.json(ids);
+      
+      // ===== NOTE : FOR "AGGREGATE" FUNCTION MUST CONVERT ID TO OBJECT. IF USE "FIND" IT'S NOT NECCESSARY  ====
       // QUERY TOTAL BALANCE
       const totaBalance = await Account.aggregate([
-        { $match: {} },
+        { $match: { userId : idObj } },
         {
           $group: { _id: null, total: { $sum: "$balance" } },
         },
       ]);
 
-      const dateFrom = req.params.dateFrom.concat(" 00:00:00")
-      const dateTo = req.params.dateTo.concat(" 23:59:59")
-
       //EXPENSE - 2 TAHAP INQUIRY ID EXPENSE LALU FILTER
       const idExpense = await Category.find({ ctgType: "Expense" }).select("_id");
       const Expense = await Trans.find(
         {
+          userId : { $in: idStr },
           categoryId: { $in: idExpense },
           transDate : { $gte : dateFrom,
                         $lt: dateTo
@@ -38,6 +48,7 @@ module.exports = {
       const idIncome = await Category.find({ ctgType: "Income" }).select("_id");
       const Income = await Trans.find(
         {
+          userId : { $in: idStr },
           categoryId: { $in: idIncome },
           transDate : { $gte : dateFrom,
                         $lt: dateTo
@@ -56,7 +67,7 @@ module.exports = {
       //     { $match: { categoryId: { $eq: ['categoryId', '5f6c865d4cc77023443da77d'] } } },
       //     { $group: { _id: null, sum: { $sum: "$ammount" } } }])
 
-      const account = await Account.find().select(
+      const account = await Account.find({ userId : { $in: idStr }}).select(
         "accName accType balance accImageUrl"
       );
 
@@ -73,7 +84,7 @@ module.exports = {
       //   "accName accType accImageUrl"
       // );
 
-      //MENAMPILKAN HASIL QUERY KEDALAM JSON
+      // //MENAMPILKAN HASIL QUERY KEDALAM JSON
       res.status(200).json({
         //TOTALBALANCE
         totaBalance: totaBalance[0].total,
@@ -89,11 +100,104 @@ module.exports = {
     }
   },
 
+  authCheck : async (req, res) => {
+    // try {
+    //   if(req.cookies == null || req.cookies == undefined){
+    //     console.log("cookies kosong")
+    //     res.redirect("http://localhost:3001");
+    //   }else {
+    //     console.log("cookies terisi")
+    //     res.redirect("http://localhost:3001/landingpage");
+    //   }
+    // } catch (error) {
+    //   // res.redirect("/");
+    // }
+
+    try {
+      const token = req.cookies.token; // cookie parser
+      if(!token) {
+          // res.render("index");
+          res.json({
+            status : false,
+            verif_user : ""
+          })
+          // res.redirect("http://localhost:3001/")
+          // return res.json(false) 
+          
+      }
+      const verified = jwt.verify(token, "jwtsecret1234") //compare token with secret. if error go to catch
+      res.json({
+        status : true,
+        verif_user : verified.user
+      })
+      // req.user = verified.user;
+      // console.log(req.user);
+      // next(); 
+    } catch (err) {
+        console.log(err);
+        res.json(false)
+    }  
+    
+  },
+
+  actLogin: async (req, res) => {
+    try {
+      // res.json({ msg : "hello"})
+      const { username, pass } = req.body;
+      const existingUser = await User.findOne({ userName: username });
+      if (!existingUser) {
+        return res.json("Username tidak ada!");
+        // return res.redirect("http://localhost:3001")
+      }
+
+      const isPasswordMatch = await bcrypt.compare(pass, existingUser.pass)
+      if(!isPasswordMatch){
+        return res.json("Password salah!");
+        // res.redirect("http://localhost:3001")
+      }
+
+      const token = jwt.sign (
+        {
+          user : existingUser._id,
+        },
+        "jwtsecret1234" // jwt password - next input in env
+      );
+
+      // console.log(token)
+      res.cookie("token", token, {
+        httpOnly : true,
+      }).send();
+
+      // const verified = jwt.verify(token, "jwtsecret1234") //compare token with secret. if error go to catch
+      // return res.json(verified.user)
+    } catch (err) {
+      console.error(err) // showing error explanation
+        // res.status(401).error(err);
+      }
+    },
+
+
+    actLogout: async (req, res) => {
+      try {
+
+        res.cookie("token", "", {
+          httpOnly: true,
+          expires: new Date(0), // makes browser remove cookies
+        }).send(); 
+
+        res.redirect("http://localhost:3001")
+      } catch (err) {
+        console.error(err)
+          // res.status(401).error(err);
+        }
+      },
+
   accountDropDown: async (req, res) => {
   try {
 
-    const { id } = req.params;
-    const accTransfer = await Account.find({ _id: {$ne:id} }).select(
+    const { idAcc } = req.params;
+    const idStr = req.params.id;
+    const accTransfer = await Account.find({ userId : idStr, _id: {$ne:idAcc} }).select(
       "accName accType accImageUrl"
     );
 
@@ -159,7 +263,7 @@ module.exports = {
 
   personalIncomeDetail: async (req, res) => {
     try {
-      const { id } = req.params;
+      idObj = mongoose.Types.ObjectId(req.params.id) 
       
       const dateFrom = req.params.dateFrom.concat(" 00:00:00")
       const dateTo = req.params.dateTo.concat(" 23:59:59")
@@ -178,6 +282,7 @@ module.exports = {
           { $unwind:"$transCtg" }, // $unwind used for getting data in object or for one record only
           {
             $match : {
+              userId : idObj,
               "transCtg.ctgType" : "Income",
               "transDate" : {
                 $gte : new Date(dateFrom), // HARUS DIFORMAT MENJADI NEW DATE AGAR BISA DI QUERY PADA AGGREGATE MATCH BETWEEN
@@ -209,7 +314,7 @@ module.exports = {
 
   personalExpenseDetail: async (req, res) => {
     try {
-      const { id } = req.params;
+      idObj = mongoose.Types.ObjectId(req.params.id) 
 
       const dateFrom = req.params.dateFrom.concat(" 00:00:00")
       const dateTo = req.params.dateTo.concat(" 23:59:59")
@@ -226,6 +331,7 @@ module.exports = {
           { $unwind:"$transCtg" }, // $unwind used for getting data in object or for one record only
           {
             $match : {
+              userId : idObj,
               "transCtg.ctgType" : "Expense",
               "transDate" : {
                 $gte : new Date(dateFrom), // HARUS DIFORMAT MENJADI NEW DATE AGAR BISA DI QUERY PADA AGGREGATE MATCH BETWEEN
@@ -255,7 +361,7 @@ module.exports = {
 
   reportExpenseCategory: async (req, res) => {
     try {
-      const { id } = req.params;
+      idObj = mongoose.Types.ObjectId(req.params.id) 
       
       const transexp = await Trans.aggregate([
           { 
@@ -269,6 +375,7 @@ module.exports = {
           { $unwind:"$transCtg" },
           {
             $match : {
+              userId : idObj,
               "transCtg.ctgType" : "Expense"
             }
           },
@@ -293,7 +400,7 @@ module.exports = {
 
   reportIncomeCategory: async (req, res) => {
     try {
-      const { id } = req.params;
+      idObj = mongoose.Types.ObjectId(req.params.id) 
       
       const transinc = await Trans.aggregate([
           { 
@@ -307,6 +414,7 @@ module.exports = {
           { $unwind:"$transCtg" },
           {
             $match : {
+              userId : idObj,
               "transCtg.ctgType" : "Income"
             }
           },
