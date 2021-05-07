@@ -165,8 +165,9 @@ module.exports = {
 
       // console.log(token)
       res.cookie("token", token, {
-        // httpOnly : true,
+        path: "/",
         secure: true,
+        httpOnly : true
         // secure: req.secure
         // sameSite : 'none'
       }).send();
