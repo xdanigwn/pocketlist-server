@@ -169,10 +169,11 @@ module.exports = {
 
       // console.log(token)
       res.cookie("token", token, {
-        // secure: true,
+       
         domain : "https://app-pocketlist.herokuapp.com/",
         httpOnly : true,
-        sameSite : 'none'
+        sameSite : 'none',
+        secure: true,
         // secure: req.secure
         
       }).send();
