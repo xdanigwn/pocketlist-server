@@ -169,7 +169,7 @@ module.exports = {
 
       // console.log(token)
       res.cookie("token", token, {
-        domain : "https://app-pocketlist.herokuapp.com/",
+        domain : ".herokuapp.com",
         httpOnly : true,
         // sameSite : 'none',
         // secure: true,
