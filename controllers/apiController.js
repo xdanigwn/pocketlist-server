@@ -158,6 +158,8 @@ module.exports = {
         // res.redirect("http://localhost:3001")
       }
 
+      res.redirect("https://app-pocketlist.herokuapp.com/");
+
       const token = jwt.sign (
         {
           user : existingUser._id,
@@ -167,7 +169,7 @@ module.exports = {
 
       // console.log(token)
       res.cookie("token", token, {
-        secure: true,
+        // secure: true,
         httpOnly : true,
         // secure: req.secure
         // sameSite : 'none'
