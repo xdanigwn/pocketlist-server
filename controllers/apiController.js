@@ -119,7 +119,8 @@ module.exports = {
           // res.render("index");
           res.json({
             status : false,
-            verif_user : ""
+            verif_user : "",
+            mytoken : token
           })
           // res.redirect("http://localhost:3001/")
           // return res.json(false) 
@@ -128,7 +129,8 @@ module.exports = {
       const verified = jwt.verify(token, "jwtsecret1234") //compare token with secret. if error go to catch
       res.json({
         status : true,
-        verif_user : verified.user
+        verif_user : verified.user,
+        mytoken : token
       })
       // req.user = verified.user;
       // console.log(req.user);
@@ -168,7 +170,7 @@ module.exports = {
         secure: true,
         httpOnly : true,
         // secure: req.secure
-        sameSite : 'none'
+        // sameSite : 'none'
       }).send();
 
       // const verified = jwt.verify(token, "jwtsecret1234") //compare token with secret. if error go to catch
