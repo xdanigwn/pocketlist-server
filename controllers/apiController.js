@@ -172,8 +172,9 @@ module.exports = {
         // secure: true,
         domain : "https://app-pocketlist.herokuapp.com/",
         httpOnly : true,
+        sameSite : 'none'
         // secure: req.secure
-        // sameSite : 'none'
+        
       }).send();
 
       // const verified = jwt.verify(token, "jwtsecret1234") //compare token with secret. if error go to catch
