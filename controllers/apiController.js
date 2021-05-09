@@ -129,19 +129,6 @@ module.exports = {
     }  
   },
 
-
-    // try {
-    //   if(req.cookies == null || req.cookies == undefined){
-    //     console.log("cookies kosong")
-    //     res.redirect("http://localhost:3001");
-    //   }else {
-    //     console.log("cookies terisi")
-    //     res.redirect("http://localhost:3001/landingpage");
-    //   }
-    // } catch (error) {
-    //   // res.redirect("/");
-    // }
-
   actLogin: async (req, res) => {
     try {
       // res.json({ msg : "hello"})
@@ -158,7 +145,7 @@ module.exports = {
         // res.redirect("http://localhost:3001")
       }
 
-      // res.render("https://app-pocketlist.herokuapp.com/");
+      // res.setHeader("https://app-pocketlist.herokuapp.com/");
 
       const token = jwt.sign (
         {
@@ -169,17 +156,17 @@ module.exports = {
 
       // console.log(token)
       res.cookie("token", token, {
+        httpOnly : true,
         domain : "herokuapp.com",
-        hostOnly : false
-        // httpOnly : true,
+        // hostOnly : false
         // secure: true,
         // sameSite : 'none',
         // secure: req.secure
         
       }).send();
 
-      const token = req.cookies.token; // cookie parser
-      res.json(token);
+      // const token = req.cookies.token; // cookie parser
+      // res.json(token);
 
       // const verified = jwt.verify(token, "jwtsecret1234") //compare token with secret. if error go to catch
       // return res.json(verified.user)
@@ -198,7 +185,7 @@ module.exports = {
           expires: new Date(0), // makes browser remove cookies
         }).send(); 
 
-        res.redirect("http://localhost:3001")
+        res.redirect("https://app-pocketlist.herokuapp.com")
       } catch (err) {
         console.error(err)
           // res.status(401).error(err);

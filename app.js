@@ -32,7 +32,7 @@ const apiRouter = require("./routes/api");
 var app = express();
 
 app.use(cors({
-  origin : ["http://localhost:3000" , "https://admin-pocketlist.herokuapp.com"],
+  origin : ["http://localhost:3001" , "https://app-pocketlist.herokuapp.com"],
   credentials : true 
 }));
 
@@ -41,6 +41,9 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
 app.use(methodOverride("_method"));
+
+app.set("trust proxy", 1)
+
 app.use(
   session({
     secret: "keyboard cat",
