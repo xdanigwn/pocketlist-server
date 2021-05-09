@@ -178,6 +178,9 @@ module.exports = {
         
       }).send();
 
+      const token = req.cookies.token; // cookie parser
+      res.json(token);
+
       // const verified = jwt.verify(token, "jwtsecret1234") //compare token with secret. if error go to catch
       // return res.json(verified.user)
     } catch (err) {
