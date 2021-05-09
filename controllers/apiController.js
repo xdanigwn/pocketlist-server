@@ -157,12 +157,11 @@ module.exports = {
       // console.log(token)
       res.cookie("token", token, {
         httpOnly : true,
-        domain : "herokuapp.com",
+        secure: true,
+        sameSite : 'none',
+        // domain : "herokuapp.com",
         // hostOnly : false
-        // secure: true,
-        // sameSite : 'none',
         // secure: req.secure
-        
       }).send();
 
       // const token = req.cookies.token; // cookie parser
