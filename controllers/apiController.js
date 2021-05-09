@@ -169,7 +169,7 @@ module.exports = {
 
       // console.log(token)
       res.cookie("token", token, {
-        // domain : "herokuapp.com",
+        domain : "herokuapp.com",
         hostOnly : false
         // httpOnly : true,
         // secure: true,
