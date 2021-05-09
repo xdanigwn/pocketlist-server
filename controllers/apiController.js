@@ -158,7 +158,7 @@ module.exports = {
         // res.redirect("http://localhost:3001")
       }
 
-      res.redirect("https://app-pocketlist.herokuapp.com/");
+      // res.redirect("https://app-pocketlist.herokuapp.com/");
 
       const token = jwt.sign (
         {
