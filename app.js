@@ -32,8 +32,8 @@ const apiRouter = require("./routes/api");
 var app = express();
 
 app.use(cors({
+  credentials : true, 
   origin : ["http://localhost:3001" , "https://app-pocketlist.herokuapp.com"],
-  credentials : true 
 }));
 
 // view engine setup
