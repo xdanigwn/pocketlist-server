@@ -170,7 +170,7 @@ module.exports = {
       // console.log(token)
       res.cookie("token", token, {
         domain : "herokuapp.com",
-        httpOnly : true,
+        // httpOnly : true,
         // secure: true,
         // sameSite : 'none',
         // secure: req.secure
