@@ -184,7 +184,7 @@ module.exports = {
       // console.log(token)
       res.cookie("token", token, {
         httpOnly : true,
-        // domain : "herokuapp.com",
+        domain : "https://app-pocketlist.herokuapp.com",
         // hostOnly : false
         // secure: true,
         // sameSite : 'none',
