@@ -6,15 +6,19 @@ const bcrypt = require("bcryptjs");
 const jwt  = require("jsonwebtoken");
 const mongoose = require('mongoose')
 
+function cors(){
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3001")
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader("Access-Control-Max-Age", "1800");
+  res.setHeader("Access-Control-Allow-Headers", "content-type");
+  res.setHeader("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" ); 
+}
+
 module.exports = {
   overview: async (req, res) => {
     try {
 
-      res.setHeader("Access-Control-Allow-Origin", "http://localhost:3001")
-      res.setHeader("Access-Control-Allow-Credentials", "true");
-      res.setHeader("Access-Control-Max-Age", "1800");
-      res.setHeader("Access-Control-Allow-Headers", "content-type");
-      res.setHeader("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" ); 
+      cors();
 
       idStr = req.params.id
       idObj = mongoose.Types.ObjectId(req.params.id) 
