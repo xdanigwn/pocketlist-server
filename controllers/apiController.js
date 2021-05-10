@@ -186,8 +186,8 @@ module.exports = {
         httpOnly : true,
         domain : "https://app-pocketlist.herokuapp.com",
         // hostOnly : false
-        // secure: true,
-        // sameSite : 'none',
+        secure: true,
+        sameSite : 'none',
         // secure: req.secure
         
       }).send();
