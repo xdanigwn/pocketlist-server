@@ -10,6 +10,12 @@ module.exports = {
   overview: async (req, res) => {
     try {
 
+      res.setHeader("Access-Control-Allow-Origin", "*")
+      res.setHeader("Access-Control-Allow-Credentials", "true");
+      res.setHeader("Access-Control-Max-Age", "1800");
+      res.setHeader("Access-Control-Allow-Headers", "content-type");
+      res.setHeader( "Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" ); 
+
       idStr = req.params.id
       idObj = mongoose.Types.ObjectId(req.params.id) 
       const dateFrom = req.params.dateFrom.concat(" 00:00:00")
@@ -145,7 +151,7 @@ module.exports = {
         // res.redirect("http://localhost:3001")
       }
 
-      // res.setHeader("https://app-pocketlist.herokuapp.com/");
+      // res.render("https://app-pocketlist.herokuapp.com/");
 
       const token = jwt.sign (
         {
@@ -156,12 +162,13 @@ module.exports = {
 
       // console.log(token)
       res.cookie("token", token, {
-        // httpOnly : true,
-        secure: true,
-        sameSite : 'none',
+        httpOnly : true,
         // domain : "herokuapp.com",
         // hostOnly : false
+        // secure: true,
+        // sameSite : 'none',
         // secure: req.secure
+        
       }).send();
 
       // const token = req.cookies.token; // cookie parser
@@ -184,7 +191,7 @@ module.exports = {
           expires: new Date(0), // makes browser remove cookies
         }).send(); 
 
-        res.redirect("https://app-pocketlist.herokuapp.com")
+        res.redirect("http://localhost:3001")
       } catch (err) {
         console.error(err)
           // res.status(401).error(err);
