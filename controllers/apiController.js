@@ -17,11 +17,11 @@ function allow_cors(){
 module.exports = {
   overview: async (req, res) => {
     try {
-      // res.setHeader("Access-Control-Allow-Origin", "http://localhost:3001")
-      // res.setHeader("Access-Control-Allow-Credentials", "true");
-      // res.setHeader("Access-Control-Max-Age", "1800");
-      // res.setHeader("Access-Control-Allow-Headers", "content-type");
-      // res.setHeader("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" ); 
+      res.setHeader("Access-Control-Allow-Origin", "https://app-pocketlist.herokuapp.com")
+      res.setHeader("Access-Control-Allow-Credentials", "true");
+      res.setHeader("Access-Control-Max-Age", "1800");
+      res.setHeader("Access-Control-Allow-Headers", "content-type");
+      res.setHeader("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" ); 
 
       idStr = req.params.id
       idObj = mongoose.Types.ObjectId(req.params.id) 
@@ -248,6 +248,13 @@ module.exports = {
   balanceInfo: async (req, res) => {
     try {
       allow_cors();
+      
+      res.setHeader("Access-Control-Allow-Origin", "https://app-pocketlist.herokuapp.com")
+      res.setHeader("Access-Control-Allow-Credentials", "true");
+      res.setHeader("Access-Control-Max-Age", "1800");
+      res.setHeader("Access-Control-Allow-Headers", "content-type");
+      res.setHeader("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" ); 
+
       const { id } = req.params;
       
       const accDebit = await Account.find({ userId: id, accType: "Debit"})
