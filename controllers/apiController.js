@@ -6,7 +6,7 @@ const bcrypt = require("bcryptjs");
 const jwt  = require("jsonwebtoken");
 const mongoose = require('mongoose')
 
-function cors(){
+function allow_cors(){
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3001")
   res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader("Access-Control-Max-Age", "1800");
@@ -17,8 +17,7 @@ function cors(){
 module.exports = {
   overview: async (req, res) => {
     try {
-
-      cors();
+      allow_cors();
 
       idStr = req.params.id
       idObj = mongoose.Types.ObjectId(req.params.id) 
@@ -112,6 +111,8 @@ module.exports = {
 
   authCheck : async (req, res) => {
     try {
+      allow_cors();
+
       const token = req.cookies.token; // cookie parser
       if(!token) {
           // res.render("index");
@@ -141,6 +142,7 @@ module.exports = {
 
   actLogin: async (req, res) => {
     try {
+      allow_cors();
       // res.json({ msg : "hello"})
       const { username, pass } = req.body;
       const existingUser = await User.findOne({ userName: username });
@@ -189,7 +191,7 @@ module.exports = {
 
     actLogout: async (req, res) => {
       try {
-
+        allow_cors();
         res.cookie("token", "", {
           httpOnly: true,
           expires: new Date(0), // makes browser remove cookies
@@ -204,7 +206,7 @@ module.exports = {
 
   accountDropDown: async (req, res) => {
   try {
-
+    allow_cors();
     const { idAcc } = req.params;
     const idStr = req.params.id;
     const accTransfer = await Account.find({ userId : idStr, _id: {$ne:idAcc} }).select(
@@ -222,6 +224,7 @@ module.exports = {
 
   accountDetail: async (req, res) => {
     try {
+      allow_cors();
       const { id } = req.params;
       
       const trans = await Trans.find({ accountId: id})
@@ -240,6 +243,7 @@ module.exports = {
 
   balanceInfo: async (req, res) => {
     try {
+      allow_cors();
       const { id } = req.params;
       
       const accDebit = await Account.find({ userId: id, accType: "Debit"})
@@ -273,6 +277,7 @@ module.exports = {
 
   personalIncomeDetail: async (req, res) => {
     try {
+      allow_cors();
       idObj = mongoose.Types.ObjectId(req.params.id) 
       
       const dateFrom = req.params.dateFrom.concat(" 00:00:00")
@@ -324,6 +329,7 @@ module.exports = {
 
   personalExpenseDetail: async (req, res) => {
     try {
+      allow_cors();
       idObj = mongoose.Types.ObjectId(req.params.id) 
 
       const dateFrom = req.params.dateFrom.concat(" 00:00:00")
@@ -371,6 +377,7 @@ module.exports = {
 
   reportExpenseCategory: async (req, res) => {
     try {
+      allow_cors();
       idObj = mongoose.Types.ObjectId(req.params.id) 
       
       const transexp = await Trans.aggregate([
@@ -410,6 +417,7 @@ module.exports = {
 
   reportIncomeCategory: async (req, res) => {
     try {
+      allow_cors();
       idObj = mongoose.Types.ObjectId(req.params.id) 
       
       const transinc = await Trans.aggregate([
@@ -450,6 +458,7 @@ module.exports = {
 
   delTrans: async (req, res) => {
     try {
+      allow_cors();
       const { id } = req.params;
     
       const trans = await Trans.findOne({ _id: id })
@@ -472,6 +481,8 @@ module.exports = {
 
   addTrans: async (req, res) => {
     try {
+      allow_cors();
+
       const {
         transDate,
         transDesc,
