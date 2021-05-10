@@ -34,7 +34,7 @@ var app = express();
 app.set("trust proxy", 1)
 
 const corsOptions ={
-  origin:'http://localhost:3001', 
+  origin:'*', 
   credentials:true,            //access-control-allow-credentials:true
   optionSuccessStatus:200
 }
