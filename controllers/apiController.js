@@ -147,49 +147,50 @@ module.exports = {
 
   actLogin: async (req, res) => {
     try {
-      allow_cors(); 
+      // allow_cors(); 
       
-
-      // res.json({ msg : "hello"})
-      const { username, pass } = req.body;
-      const existingUser = await User.findOne({ userName: username });
-      if (!existingUser) {
-        return res.json("Username tidak ada!");
-        // return res.redirect("http://localhost:3001")
-      }
-
-      const isPasswordMatch = await bcrypt.compare(pass, existingUser.pass)
-      if(!isPasswordMatch){
-        return res.json("Password salah!");
-        // res.redirect("http://localhost:3001")
-      }
-
-     
-
-      const token = jwt.sign (
-        {
-          user : existingUser._id,
-        },
-        "jwtsecret1234" // jwt password - next input in env
-      );
-
-     
-
-      // console.log(token)
-      res.cookie("token", token, {
-        httpOnly : true,
-        secure: true,
-        sameSite : 'none',
-        // hostOnly : false
-        // secure: req.secure
-        
-      }).send();
-
       res.setHeader("Access-Control-Allow-Origin", "http://localhost:3001")
       res.setHeader("Access-Control-Allow-Credentials", "true");
       res.setHeader("Access-Control-Max-Age", "1800");
       res.setHeader("Access-Control-Allow-Headers", "content-type");
       res.setHeader("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" ); 
+      
+      // // res.json({ msg : "hello"})
+      // const { username, pass } = req.body;
+      // const existingUser = await User.findOne({ userName: username });
+      // if (!existingUser) {
+      //   return res.json("Username tidak ada!");
+      //   // return res.redirect("http://localhost:3001")
+      // }
+
+      // const isPasswordMatch = await bcrypt.compare(pass, existingUser.pass)
+      // if(!isPasswordMatch){
+      //   return res.json("Password salah!");
+      //   // res.redirect("http://localhost:3001")
+      // }
+
+     
+
+      // const token = jwt.sign (
+      //   {
+      //     user : existingUser._id,
+      //   },
+      //   "jwtsecret1234" // jwt password - next input in env
+      // );
+
+     
+
+      // // console.log(token)
+      // res.cookie("token", token, {
+      //   httpOnly : true,
+      //   secure: true,
+      //   sameSite : 'none',
+      //   // hostOnly : false
+      //   // secure: req.secure
+        
+      // }).send();
+
+    
 
       // const token = req.cookies.token; // cookie parser
       // res.json(token);
