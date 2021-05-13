@@ -32,7 +32,7 @@ const apiRouter = require("./routes/api");
 var app = express();
 
 app.use(cors({
-  origin : ["http://localhost:3001" , "https://app-pocketlist.herokuapp.com"],
+  origin : ["http://localhost:3001"],
   credentials : true 
 }));
 

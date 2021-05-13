@@ -17,11 +17,7 @@ function allow_cors(){
 module.exports = {
   overview: async (req, res) => {
     try {
-      res.setHeader("Access-Control-Allow-Origin", "https://app-pocketlist.herokuapp.com")
-      res.setHeader("Access-Control-Allow-Credentials", "true");
-      res.setHeader("Access-Control-Max-Age", "1800");
-      res.setHeader("Access-Control-Allow-Headers", "content-type");
-      res.setHeader("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" ); 
+     
 
       idStr = req.params.id
       idObj = mongoose.Types.ObjectId(req.params.id) 
@@ -116,11 +112,11 @@ module.exports = {
   authCheck : async (req, res) => {
     try {
       allow_cors();
-      res.setHeader("Access-Control-Allow-Origin", "https://app-pocketlist.herokuapp.com")
-      res.setHeader("Access-Control-Allow-Credentials", "true");
-      res.setHeader("Access-Control-Max-Age", "1800");
-      res.setHeader("Access-Control-Allow-Headers", "content-type");
-      res.setHeader("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" ); 
+     res.setHeader("Access-Control-Allow-Origin", "http://localhost:3001")
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader("Access-Control-Max-Age", "1800");
+  res.setHeader("Access-Control-Allow-Headers", "content-type");
+  res.setHeader("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" ); 
 
       const token = req.cookies.token; // cookie parser
       if(!token) {
@@ -151,12 +147,7 @@ module.exports = {
 
   actLogin: async (req, res) => {
     try {
-      allow_cors();
-      res.setHeader("Access-Control-Allow-Origin", "https://app-pocketlist.herokuapp.com")
-      res.setHeader("Access-Control-Allow-Credentials", "true");
-      res.setHeader("Access-Control-Max-Age", "1800");
-      res.setHeader("Access-Control-Allow-Headers", "content-type");
-      res.setHeader("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" ); 
+      allow_cors(); 
 
       // res.json({ msg : "hello"})
       const { username, pass } = req.body;
@@ -172,7 +163,7 @@ module.exports = {
         // res.redirect("http://localhost:3001")
       }
 
-      // res.render("https://app-pocketlist.herokuapp.com/");
+     
 
       const token = jwt.sign (
         {
@@ -184,10 +175,9 @@ module.exports = {
       // console.log(token)
       res.cookie("token", token, {
         httpOnly : true,
-        domain : "https://app-pocketlist.herokuapp.com",
         // hostOnly : false
-        secure: true,
-        sameSite : 'none',
+        // secure: true,
+        // sameSite : 'none',
         // secure: req.secure
         
       }).send();
@@ -260,11 +250,11 @@ module.exports = {
     try {
       allow_cors();
       
-      res.setHeader("Access-Control-Allow-Origin", "https://app-pocketlist.herokuapp.com")
-      res.setHeader("Access-Control-Allow-Credentials", "true");
-      res.setHeader("Access-Control-Max-Age", "1800");
-      res.setHeader("Access-Control-Allow-Headers", "content-type");
-      res.setHeader("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" ); 
+      // res.setHeader("Access-Control-Allow-Origin", "")
+      // res.setHeader("Access-Control-Allow-Credentials", "true");
+      // res.setHeader("Access-Control-Max-Age", "1800");
+      // res.setHeader("Access-Control-Allow-Headers", "content-type");
+      // res.setHeader("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" ); 
 
       const { id } = req.params;
       
