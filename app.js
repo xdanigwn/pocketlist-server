@@ -35,7 +35,7 @@ app.set("trust proxy", 1);
 
 app.use(cors({
   credentials : true,
-  origin : ["http://localhost:3001"],
+  origin : ["https://app-pocketlist.herokuapp.com"],
   
 }));
 
