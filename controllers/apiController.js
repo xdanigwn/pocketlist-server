@@ -173,11 +173,7 @@ module.exports = {
         "jwtsecret1234" // jwt password - next input in env
       );
 
-      res.setHeader("Access-Control-Allow-Origin", "http://localhost:3001")
-      res.setHeader("Access-Control-Allow-Credentials", "true");
-      res.setHeader("Access-Control-Max-Age", "1800");
-      res.setHeader("Access-Control-Allow-Headers", "content-type");
-      res.setHeader("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" ); 
+     
 
       // console.log(token)
       res.cookie("token", token, {
@@ -188,6 +184,12 @@ module.exports = {
         // secure: req.secure
         
       }).send();
+
+      res.setHeader("Access-Control-Allow-Origin", "http://localhost:3001")
+      res.setHeader("Access-Control-Allow-Credentials", "true");
+      res.setHeader("Access-Control-Max-Age", "1800");
+      res.setHeader("Access-Control-Allow-Headers", "content-type");
+      res.setHeader("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" ); 
 
       // const token = req.cookies.token; // cookie parser
       // res.json(token);
