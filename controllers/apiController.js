@@ -149,7 +149,7 @@ module.exports = {
     try {
       allow_cors(); 
       
-      res.setHeader("Access-Control-Allow-Origin", "http://localhost:3001")
+      res.setHeader("Access-Control-Allow-Origin", "http://localhost:3001/")
       res.setHeader("Access-Control-Allow-Credentials", "true");
       res.setHeader("Access-Control-Max-Age", "1800");
       res.setHeader("Access-Control-Allow-Headers", "content-type");
