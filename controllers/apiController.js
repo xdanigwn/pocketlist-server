@@ -12,11 +12,7 @@ const passport = require("passport");
 module.exports = {
   overview: async (req, res) => {
     try {
-<<<<<<< HEAD
       // res.send(req.user)
-=======
-     
->>>>>>> 058bfb1b0736f0c99c79bfc9cb29eabfd78e44d7
 
       idStr = req.params.id
       idObj = mongoose.Types.ObjectId(req.params.id) 
@@ -110,7 +106,6 @@ module.exports = {
 
   authCheck : async (req, res) => {
     try {
-<<<<<<< HEAD
 
       res.send(req.user);
       
@@ -124,25 +119,6 @@ module.exports = {
       //     })
       //     // res.redirect("http://localhost:3001/")
       //     // return res.json(false) 
-=======
-      allow_cors();
-      res.setHeader("Access-Control-Allow-Origin", "https://app-pocketlist.herokuapp.com")
-      res.setHeader("Access-Control-Allow-Credentials", "true");
-      res.setHeader("Access-Control-Max-Age", "1800");
-      res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-      res.setHeader("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" ); 
-
-      const token = req.cookies.token; // cookie parser
-      if(!token) {
-          // res.render("index");
-          res.json({
-            status : false,
-            verif_user : "",
-            mytoken : token
-          })
-          // res.redirect("http://localhost:3001/")
-          // return res.json(false) 
->>>>>>> 058bfb1b0736f0c99c79bfc9cb29eabfd78e44d7
           
       // }
       // const verified = jwt.verify(token, "jwtsecret1234") //compare token with secret. if error go to catch
@@ -162,7 +138,6 @@ module.exports = {
 
   actLogin: async (req, res, next) => {
     try {
-<<<<<<< HEAD
       passport.authenticate("local", (err, user) => { // RUN PASSPORT CONFIG WITH USERNAME & PASS FROM BODY
 
         // console.log(user);
@@ -203,54 +178,14 @@ module.exports = {
       //   },
       //   "jwtsecret1234" // jwt password - next input in env
       // );
-=======
-      allow_cors(); 
-      
-      res.setHeader("Access-Control-Allow-Origin", "https://app-pocketlist.herokuapp.com")
-      res.setHeader("Access-Control-Allow-Credentials", "true");
-      res.setHeader("Access-Control-Max-Age", "1800");
-      res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-      res.setHeader("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" ); 
-
-      // // res.json({ msg : "hello"})
-      // const { username, pass } = req.body;
-      // const existingUser = await User.findOne({ userName: username });
-      // if (!existingUser) {
-      //   return res.json("Username tidak ada!");
-      //   // return res.redirect("http://localhost:3001")
-      // }
-
-      // const isPasswordMatch = await bcrypt.compare(pass, existingUser.pass)
-      // if(!isPasswordMatch){
-      //   return res.json("Password salah!");
-      //   // res.redirect("http://localhost:3001")
-      // }
-
-     
-
-      // const token = jwt.sign (
-      //   {
-      //     user : existingUser._id,
-      //   },
-      //   "jwtsecret1234" // jwt password - next input in env
-      // );
-
-     
->>>>>>> 058bfb1b0736f0c99c79bfc9cb29eabfd78e44d7
 
       // // console.log(token)
       // res.cookie("token", token, {
       //   httpOnly : true,
-<<<<<<< HEAD
       //   // domain : "herokuapp.com",
       //   // hostOnly : false
       //   // secure: true,
       //   // sameSite : 'none',
-=======
-      //   secure: true,
-      //   sameSite : 'none',
-      //   // hostOnly : false
->>>>>>> 058bfb1b0736f0c99c79bfc9cb29eabfd78e44d7
       //   // secure: req.secure
         
       // }).send();
@@ -320,17 +255,6 @@ module.exports = {
 
   balanceInfo: async (req, res) => {
     try {
-<<<<<<< HEAD
-=======
-      allow_cors();
-      
-      // res.setHeader("Access-Control-Allow-Origin", "")
-      // res.setHeader("Access-Control-Allow-Credentials", "true");
-      // res.setHeader("Access-Control-Max-Age", "1800");
-      // res.setHeader("Access-Control-Allow-Headers", "content-type");
-      // res.setHeader("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" ); 
-
->>>>>>> 058bfb1b0736f0c99c79bfc9cb29eabfd78e44d7
       const { id } = req.params;
       
       const accDebit = await Account.find({ userId: id, accType: "Debit"})
