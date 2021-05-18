@@ -107,7 +107,13 @@ module.exports = {
   authCheck : async (req, res) => {
     try {
 
-      res.send(req.user);
+      const user = req.user
+      if(!user){
+        res.send("empty");
+      }else{
+        res.send(req.user);
+      }
+      
       
       // const token = req.cookies.token; // cookie parser
       // if(!token) {
@@ -147,7 +153,7 @@ module.exports = {
             req.logIn(user, (err) => {
                 if (err) throw err;
                 res.send("Successfully Authenticated");
-                console.log(req.user);
+                // console.log(req.user);
             });
 
             
@@ -204,13 +210,14 @@ module.exports = {
 
     actLogout: async (req, res) => {
       try {
+        req.logOut();
+        res.redirect('/');
+        // res.cookie("token", "", {
+        //   httpOnly: true,
+        //   expires: new Date(0), // makes browser remove cookies
+        // }).send(); 
 
-        res.cookie("token", "", {
-          httpOnly: true,
-          expires: new Date(0), // makes browser remove cookies
-        }).send(); 
-
-        res.redirect("http://localhost:3001")
+        // res.redirect("http://localhost:3001")
       } catch (err) {
         console.error(err)
           // res.status(401).error(err);
