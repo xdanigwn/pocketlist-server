@@ -31,12 +31,9 @@ const apiRouter = require("./routes/api");
 
 var app = express();
 
-app.set("trust proxy", 1);
-
 app.use(cors({
-  credentials : true,
-  origin : ["https://app-pocketlist.herokuapp.com"],
-  
+  origin : ["http://localhost:3001" , "https://app-pocketlist.herokuapp.com"],
+  credentials : true 
 }));
 
 // view engine setup
@@ -49,11 +46,7 @@ app.use(
     secret: "keyboard cat",
     resave: false,
     saveUninitialized: true,
-    cookie: { 
-      maxAge: 100000,
-      secure: true,
-      sameSite : 'none', 
-    },
+    cookie: { maxAge: 100000 },
   })
 );
 app.use(flash());
