@@ -7,6 +7,8 @@ var cors = require("cors");
 const methodOverride = require("method-override");
 const session = require("express-session");
 const flash = require("connect-flash");
+const passport = require("passport");
+// const passportLocal = require("passport-local").Strategy;
 
 //import mongosee
 const mongoose = require("mongoose");
@@ -20,40 +22,58 @@ mongoose.connect(
   }
 );
 
+// -------- ROUTE ---------- //
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
-
 //router admin
 const adminRouter = require("./routes/admin");
-
 //router api
 const apiRouter = require("./routes/api");
 
+// -------- EXPRESS ---------- //
 var app = express();
 
 app.use(cors({
+<<<<<<< HEAD
   origin : ["http://localhost:3001" , "https://app-pocketlist.herokuapp.com"],
+=======
+  origin : ["http://localhost:3001", "https://app-pocketlist.herokuapp.com"] ,
+>>>>>>> f342019da83224dbbc00e7494251314a3f05e830
   credentials : true 
 }));
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
-
 app.use(methodOverride("_method"));
+
+// -------- SESSION  ---------- //
+app.set("trust proxy", 1);
 app.use(
   session({
     secret: "keyboard cat",
     resave: false,
     saveUninitialized: true,
+<<<<<<< HEAD
     cookie: { maxAge: 100000 },
+=======
+    cookie: { maxAge: 1000000,
+      sameSite: "none",
+      secure: true 
+     },
+>>>>>>> f342019da83224dbbc00e7494251314a3f05e830
   })
 );
+app.use(cookieParser("keyboard cat")); // if has cookies parse it into req.cookies
+app.use(passport.initialize());
+app.use(passport.session());
+require('./middlewares/passportConfig')(passport)
+
 app.use(flash());
 
 app.use(logger("dev"));
 app.use(express.json()); // convert any incoming request in body to json format.
-app.use(cookieParser()); // if has cookies parse it into req.cookies
+
 
 app.use(express.urlencoded({ extended: false })); 
 app.use(express.static(path.join(__dirname, "public")));

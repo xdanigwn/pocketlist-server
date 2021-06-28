@@ -6,18 +6,13 @@ const bcrypt = require("bcryptjs");
 const jwt  = require("jsonwebtoken");
 const mongoose = require('mongoose')
 
-function allow_cors(){
-  // res.setHeader("Access-Control-Allow-Origin", "http://localhost:3001")
-  // res.setHeader("Access-Control-Allow-Credentials", "true");
-  // res.setHeader("Access-Control-Max-Age", "1800");
-  // res.setHeader("Access-Control-Allow-Headers", "content-type");
-  // res.setHeader("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" ); 
-}
+const passport = require("passport");
+// const passportLocal = require("passport-local").Strategy;
 
 module.exports = {
   overview: async (req, res) => {
     try {
-     
+      // res.send(req.user)
 
       idStr = req.params.id
       idObj = mongoose.Types.ObjectId(req.params.id) 
@@ -111,6 +106,7 @@ module.exports = {
 
   authCheck : async (req, res) => {
     try {
+<<<<<<< HEAD
       allow_cors();
      
 
@@ -125,13 +121,35 @@ module.exports = {
           // res.redirect("http://localhost:3001/")
           // return res.json(false) 
           
+=======
+
+      const user = req.user
+      if(!user){
+        res.send("empty");
+      }else{
+        res.send(req.user);
+>>>>>>> f342019da83224dbbc00e7494251314a3f05e830
       }
-      const verified = jwt.verify(token, "jwtsecret1234") //compare token with secret. if error go to catch
-      res.json({
-        status : true,
-        verif_user : verified.user,
-        mytoken : token
-      })
+      
+      
+      // const token = req.cookies.token; // cookie parser
+      // if(!token) {
+      //     // res.render("index");
+      //     res.json({
+      //       status : false,
+      //       verif_user : "",
+      //       mytoken : token
+      //     })
+      //     // res.redirect("http://localhost:3001/")
+      //     // return res.json(false) 
+          
+      // }
+      // const verified = jwt.verify(token, "jwtsecret1234") //compare token with secret. if error go to catch
+      // res.json({
+      //   status : true,
+      //   verif_user : verified.user,
+      //   mytoken : token
+      // })
       // req.user = verified.user;
       // console.log(req.user);
       // next(); 
@@ -141,8 +159,9 @@ module.exports = {
     }  
   },
 
-  actLogin: async (req, res) => {
+  actLogin: async (req, res, next) => {
     try {
+<<<<<<< HEAD
       allow_cors(); 
 
       // res.json({ msg : "hello"})
@@ -152,6 +171,41 @@ module.exports = {
         return res.json("Username tidak ada!");
         // return res.redirect("http://localhost:3001")
       }
+=======
+      passport.authenticate("local", (err, user) => { // RUN PASSPORT CONFIG WITH USERNAME & PASS FROM BODY
+
+        // console.log(user);
+        if (err) throw err;
+        if (!user) res.send("No User Exists");
+        else {
+            req.logIn(user, (err) => {
+                if (err) throw err;
+                res.send("Successfully Authenticated");
+                // console.log(req.user);
+            });
+
+            
+        }
+      })(req, res, next);
+
+
+
+      // // res.json({ msg : "hello"})
+      // const { username, pass } = req.body;
+      // const existingUser = await User.findOne({ userName: username });
+      // if (!existingUser) {
+      //   return res.json("Username tidak ada!");
+      //   // return res.redirect("http://localhost:3001")
+      // }
+
+      // const isPasswordMatch = await bcrypt.compare(pass, existingUser.pass)
+      // if(!isPasswordMatch){
+      //   return res.json("Password salah!");
+      //   // res.redirect("http://localhost:3001")
+      // }
+
+      // // res.render("https://app-pocketlist.herokuapp.com/");
+>>>>>>> f342019da83224dbbc00e7494251314a3f05e830
 
       const isPasswordMatch = await bcrypt.compare(pass, existingUser.pass)
       if(!isPasswordMatch){
@@ -159,6 +213,7 @@ module.exports = {
         // res.redirect("http://localhost:3001")
       }
 
+<<<<<<< HEAD
       // res.render("https://app-pocketlist.herokuapp.com/");
 
       const token = jwt.sign (
@@ -176,6 +231,16 @@ module.exports = {
         // secure: true,
         // sameSite : 'none',
         // secure: req.secure
+=======
+      // // console.log(token)
+      // res.cookie("token", token, {
+      //   httpOnly : true,
+      //   // domain : "herokuapp.com",
+      //   // hostOnly : false
+      //   // secure: true,
+      //   // sameSite : 'none',
+      //   // secure: req.secure
+>>>>>>> f342019da83224dbbc00e7494251314a3f05e830
         
       }).send();
 
@@ -193,13 +258,14 @@ module.exports = {
 
     actLogout: async (req, res) => {
       try {
-        allow_cors();
-        res.cookie("token", "", {
-          httpOnly: true,
-          expires: new Date(0), // makes browser remove cookies
-        }).send(); 
+        req.logOut();
+        res.redirect('/');
+        // res.cookie("token", "", {
+        //   httpOnly: true,
+        //   expires: new Date(0), // makes browser remove cookies
+        // }).send(); 
 
-        res.redirect("http://localhost:3001")
+        // res.redirect("http://localhost:3001")
       } catch (err) {
         console.error(err)
           // res.status(401).error(err);
@@ -208,7 +274,7 @@ module.exports = {
 
   accountDropDown: async (req, res) => {
   try {
-    allow_cors();
+
     const { idAcc } = req.params;
     const idStr = req.params.id;
     const accTransfer = await Account.find({ userId : idStr, _id: {$ne:idAcc} }).select(
@@ -226,7 +292,6 @@ module.exports = {
 
   accountDetail: async (req, res) => {
     try {
-      allow_cors();
       const { id } = req.params;
       
       const trans = await Trans.find({ accountId: id})
@@ -245,6 +310,7 @@ module.exports = {
 
   balanceInfo: async (req, res) => {
     try {
+<<<<<<< HEAD
       allow_cors();
       
       // res.setHeader("Access-Control-Allow-Origin", "https://app-pocketlist.herokuapp.com")
@@ -253,6 +319,8 @@ module.exports = {
       // res.setHeader("Access-Control-Allow-Headers", "content-type");
       // res.setHeader("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" ); 
 
+=======
+>>>>>>> f342019da83224dbbc00e7494251314a3f05e830
       const { id } = req.params;
       
       const accDebit = await Account.find({ userId: id, accType: "Debit"})
@@ -286,7 +354,6 @@ module.exports = {
 
   personalIncomeDetail: async (req, res) => {
     try {
-      allow_cors();
       idObj = mongoose.Types.ObjectId(req.params.id) 
       
       const dateFrom = req.params.dateFrom.concat(" 00:00:00")
@@ -338,7 +405,6 @@ module.exports = {
 
   personalExpenseDetail: async (req, res) => {
     try {
-      allow_cors();
       idObj = mongoose.Types.ObjectId(req.params.id) 
 
       const dateFrom = req.params.dateFrom.concat(" 00:00:00")
@@ -386,7 +452,6 @@ module.exports = {
 
   reportExpenseCategory: async (req, res) => {
     try {
-      allow_cors();
       idObj = mongoose.Types.ObjectId(req.params.id) 
       
       const transexp = await Trans.aggregate([
@@ -426,7 +491,6 @@ module.exports = {
 
   reportIncomeCategory: async (req, res) => {
     try {
-      allow_cors();
       idObj = mongoose.Types.ObjectId(req.params.id) 
       
       const transinc = await Trans.aggregate([
@@ -467,7 +531,6 @@ module.exports = {
 
   delTrans: async (req, res) => {
     try {
-      allow_cors();
       const { id } = req.params;
     
       const trans = await Trans.findOne({ _id: id })
@@ -490,8 +553,6 @@ module.exports = {
 
   addTrans: async (req, res) => {
     try {
-      allow_cors();
-
       const {
         transDate,
         transDesc,
