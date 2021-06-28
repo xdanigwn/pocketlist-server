@@ -34,11 +34,7 @@ const apiRouter = require("./routes/api");
 var app = express();
 
 app.use(cors({
-<<<<<<< HEAD
-  origin : ["http://localhost:3001" , "https://app-pocketlist.herokuapp.com"],
-=======
   origin : ["http://localhost:3001", "https://app-pocketlist.herokuapp.com"] ,
->>>>>>> f342019da83224dbbc00e7494251314a3f05e830
   credentials : true 
 }));
 
@@ -54,14 +50,10 @@ app.use(
     secret: "keyboard cat",
     resave: false,
     saveUninitialized: true,
-<<<<<<< HEAD
-    cookie: { maxAge: 100000 },
-=======
     cookie: { maxAge: 1000000,
       sameSite: "none",
       secure: true 
      },
->>>>>>> f342019da83224dbbc00e7494251314a3f05e830
   })
 );
 app.use(cookieParser("keyboard cat")); // if has cookies parse it into req.cookies

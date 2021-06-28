@@ -106,29 +106,12 @@ module.exports = {
 
   authCheck : async (req, res) => {
     try {
-<<<<<<< HEAD
-      allow_cors();
-     
-
-      const token = req.cookies.token; // cookie parser
-      if(!token) {
-          // res.render("index");
-          res.json({
-            status : false,
-            verif_user : "",
-            mytoken : token
-          })
-          // res.redirect("http://localhost:3001/")
-          // return res.json(false) 
-          
-=======
 
       const user = req.user
       if(!user){
         res.send("empty");
       }else{
         res.send(req.user);
->>>>>>> f342019da83224dbbc00e7494251314a3f05e830
       }
       
       
@@ -161,17 +144,6 @@ module.exports = {
 
   actLogin: async (req, res, next) => {
     try {
-<<<<<<< HEAD
-      allow_cors(); 
-
-      // res.json({ msg : "hello"})
-      const { username, pass } = req.body;
-      const existingUser = await User.findOne({ userName: username });
-      if (!existingUser) {
-        return res.json("Username tidak ada!");
-        // return res.redirect("http://localhost:3001")
-      }
-=======
       passport.authenticate("local", (err, user) => { // RUN PASSPORT CONFIG WITH USERNAME & PASS FROM BODY
 
         // console.log(user);
@@ -205,33 +177,13 @@ module.exports = {
       // }
 
       // // res.render("https://app-pocketlist.herokuapp.com/");
->>>>>>> f342019da83224dbbc00e7494251314a3f05e830
 
-      const isPasswordMatch = await bcrypt.compare(pass, existingUser.pass)
-      if(!isPasswordMatch){
-        return res.json("Password salah!");
-        // res.redirect("http://localhost:3001")
-      }
+      // const isPasswordMatch = await bcrypt.compare(pass, existingUser.pass)
+      // if(!isPasswordMatch){
+      //   return res.json("Password salah!");
+      //   // res.redirect("http://localhost:3001")
+      // }
 
-<<<<<<< HEAD
-      // res.render("https://app-pocketlist.herokuapp.com/");
-
-      const token = jwt.sign (
-        {
-          user : existingUser._id,
-        },
-        "jwtsecret1234" // jwt password - next input in env
-      );
-
-      // console.log(token)
-      res.cookie("token", token, {
-        httpOnly : true,
-        // domain : "https://app-pocketlist.herokuapp.com",
-        // hostOnly : false
-        // secure: true,
-        // sameSite : 'none',
-        // secure: req.secure
-=======
       // // console.log(token)
       // res.cookie("token", token, {
       //   httpOnly : true,
@@ -240,9 +192,8 @@ module.exports = {
       //   // secure: true,
       //   // sameSite : 'none',
       //   // secure: req.secure
->>>>>>> f342019da83224dbbc00e7494251314a3f05e830
         
-      }).send();
+      //}).send();
 
       // const token = req.cookies.token; // cookie parser
       // res.json(token);
@@ -310,17 +261,6 @@ module.exports = {
 
   balanceInfo: async (req, res) => {
     try {
-<<<<<<< HEAD
-      allow_cors();
-      
-      // res.setHeader("Access-Control-Allow-Origin", "https://app-pocketlist.herokuapp.com")
-      // res.setHeader("Access-Control-Allow-Credentials", "true");
-      // res.setHeader("Access-Control-Max-Age", "1800");
-      // res.setHeader("Access-Control-Allow-Headers", "content-type");
-      // res.setHeader("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" ); 
-
-=======
->>>>>>> f342019da83224dbbc00e7494251314a3f05e830
       const { id } = req.params;
       
       const accDebit = await Account.find({ userId: id, accType: "Debit"})
